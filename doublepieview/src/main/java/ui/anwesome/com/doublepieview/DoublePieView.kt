@@ -22,7 +22,7 @@ class DoublePieView (ctx : Context) : View(ctx) {
         return true
     }
     data class State(var prevScale : Float = 0f, var dir : Int = 0, var j : Int = 0) {
-        val scales : Array<Float> = arrayOf(0f, 0f, 0f)
+        val scales : Array<Float> = arrayOf(0f, 0f, 0f, 0f)
         fun update(stopcb : (Float) -> Unit) {
             scales[j] += dir * 0.1f
             if (Math.abs(scales[j] - prevScale) > 1) {
@@ -85,6 +85,8 @@ class DoublePieView (ctx : Context) : View(ctx) {
                 canvas.drawArc(RectF(-w/5, -w/5, w/5, w/5), 0f , 360f * state.scales[2], true, paint)
                 canvas.restore()
             }
+            val lw = (Math.min(w, h)/5) * state.scales[3]
+            canvas.drawLine(0f, -lw , 0f, lw, paint)
             canvas.restore()
         }
         fun update(stopcb : (Float) -> Unit) {
