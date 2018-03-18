@@ -3,6 +3,7 @@ package ui.anwesome.com.doublepieview
 /**
  * Created by anweshmishra on 18/03/18.
  */
+import android.app.Activity
 import android.content.*
 import android.graphics.*
 import android.view.*
@@ -110,6 +111,13 @@ class DoublePieView (ctx : Context) : View(ctx) {
             doublePie.startUpdating {
                 animator.start()
             }
+        }
+    }
+    companion object {
+        fun create(activity : Activity) : DoublePieView {
+            val view = DoublePieView(activity)
+            activity.setContentView(view)
+            return view
         }
     }
 }
