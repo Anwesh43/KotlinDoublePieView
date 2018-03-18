@@ -92,4 +92,23 @@ class DoublePieView (ctx : Context) : View(ctx) {
             state.startUpdating(startcb)
         }
     }
+    data class Renderer(var view : DoublePieView) {
+        val doublePie : DoublePie = DoublePie(0)
+        val animator = Animator(view)
+        fun render (canvas : Canvas, paint : Paint) {
+            canvas.drawColor(Color.parseColor("#212121"))
+            paint.color = Color.parseColor("#e74c3c")
+            doublePie.draw(canvas, paint)
+            animator.animate {
+                doublePie.update {
+                    animator.stop()
+                }
+            }
+        }
+        fun handleTap() {
+            doublePie.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
