@@ -78,11 +78,11 @@ class DoublePieView (ctx : Context) : View(ctx) {
             canvas.translate(w/2, h/2)
             for(i in 0..1) {
                 canvas.save()
-                canvas.translate((w/4) * state.scales[1] * (1 - 2 * i), 0f)
+                canvas.translate((w / 4) * state.scales[1] * (1 - 2 * i), 0f)
                 paint.style = Paint.Style.STROKE
-                canvas.drawArc(RectF(-w/4, -w/4, w/4, w/4), 0f, 360f * state.scales[0], false, paint)
+                canvas.drawArc(RectF(-w/5, -w/5, w/5, w/5), 0f, 360f * state.scales[0], false, paint)
                 paint.style = Paint.Style.FILL
-                canvas.drawArc(RectF(-w/4, -w/4, w/4, w/4), 0f , 360f * state.scales[2], true, paint)
+                canvas.drawArc(RectF(-w/5, -w/5, w/5, w/5), 0f , 360f * state.scales[2], true, paint)
                 canvas.restore()
             }
             canvas.restore()
