@@ -10,8 +10,12 @@ import android.view.*
 class DoublePieView (ctx : Context) : View(ctx) {
     val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
     val renderer = Renderer(this)
+    var doublePieListener : DoublePieListener ?= null
     override fun onDraw(canvas : Canvas) {
         renderer.render(canvas, paint)
+    }
+    fun addDoublePieListener(onCloseListener : () -> Unit, onOpenListener : () -> Unit) {
+        doublePieListener = DoublePieListener(onCloseListener, onOpenListener)
     }
     override fun onTouchEvent(event : MotionEvent) : Boolean {
         when(event.action) {
@@ -106,6 +110,10 @@ class DoublePieView (ctx : Context) : View(ctx) {
             animator.animate {
                 doublePie.update {
                     animator.stop()
+                    when(it) {
+                        0f -> view.doublePieListener?.onCloseListener?.invoke()
+                        1f -> view.doublePieListener?.onOpenListener?.invoke()
+                    }
                 }
             }
         }
@@ -122,4 +130,5 @@ class DoublePieView (ctx : Context) : View(ctx) {
             return view
         }
     }
+    data class DoublePieListener(var onCloseListener : () -> Unit, var onOpenListener : () -> Unit)
 }
