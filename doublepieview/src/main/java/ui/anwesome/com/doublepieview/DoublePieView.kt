@@ -66,4 +66,30 @@ class DoublePieView (ctx : Context) : View(ctx) {
             }
         }
     }
+    data class DoublePie(var i : Int, var state : State = State()) {
+        fun draw(canvas : Canvas, paint : Paint) {
+            val w = canvas.width.toFloat()
+            val h = canvas.height.toFloat()
+            paint.strokeWidth = Math.min(w, h)/ 50
+            paint.strokeCap = Paint.Cap.ROUND
+            canvas.save()
+            canvas.translate(w/2, h/2)
+            for(i in 0..1) {
+                canvas.save()
+                canvas.translate((w/4) * state.scales[1] * (1 - 2 * i), 0f)
+                paint.style = Paint.Style.STROKE
+                canvas.drawArc(RectF(-w/4, -w/4, w/4, w/4), 0f, 360f * state.scales[0], false, paint)
+                paint.style = Paint.Style.FILL
+                canvas.drawArc(RectF(-w/4, -w/4, w/4, w/4), 0f , 360f * state.scales[2], true, paint)
+                canvas.restore()
+            }
+            canvas.restore()
+        }
+        fun update(stopcb : (Float) -> Unit) {
+            state.update(stopcb)
+        }
+        fun startUpdating(startcb : () -> Unit) {
+            state.startUpdating(startcb)
+        }
+    }
 }
